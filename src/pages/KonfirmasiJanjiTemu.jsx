@@ -60,7 +60,7 @@ const KonfirmasiJanjiTemu = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-[100vh] gap-4">
+    <div className="flex flex-col items-center justify-center h-[100vh] gap-4 mt-8">
       <div className="flex flex-col items-center justify-center sm:gap-2 xl:gap-4">
         <h1 className="text-center text-slate-500 text-md lg:text-2xl xl:text-3xl font-bold">
           Konfirmasi Jadwal Booking
@@ -70,8 +70,8 @@ const KonfirmasiJanjiTemu = () => {
         </p>
       </div>
       <div
-        className="flex flex-col justify-center  w-[70vw] h-[75vh] md:w-[60vw] md:h-[65vh] lg:w-[50vw] lg:h-[55vh] xl:w-[
-        40vw] xl:h-[60vh] bg-blue-100 rounded-xl px-5"
+        className="flex flex-col justify-center  w-[70vw] h-[75vh] md:w-[60vw] md:h-[65vh] lg:w-[50vw] lg:h-[90vh] xl:w-[
+        40vw] xl:h-[90vh] bg-blue-100 rounded-xl px-5"
       >
         <div className="text-gray-700 text-sm md:text-md lg:text-xl xl:text-2xl font-bold">
           Jadwal Anda :
