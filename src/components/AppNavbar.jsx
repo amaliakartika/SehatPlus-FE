@@ -45,7 +45,7 @@ function AppNavbar() {
     >
       <Navbar.Brand
         href="/"
-        className="flex items-center space-x-3 rtl:space-x-reverse lg:ml-[2rem] xl:ml-[3rem]"
+        className="flex items-center space-x-3 rtl:space-x-reverse lg:ml-[1rem] xl:ml-[2rem]"
       >
         <img src={logo} className="h-10 rounded-full" alt="Flowbite Logo" />
         <span className="self-center md:text-sm xl:text-2xl font-semibold whitespace-nowrap text-[#080C71]">
@@ -56,7 +56,7 @@ function AppNavbar() {
         <Navbar.Toggle />
       </div>
       <div className="hidden md:flex items-center w-[80vw] justify-between">
-        <div className="xl:text-lg xl:flex xl:w-[40vw] xl:justify-center xl:gap-[2rem] xl:ml-[14rem] lg:text-[14px] lg:flex lg:w-[40vw] lg:justify-center lg:gap-[1rem] lg:ml-[6rem] md:flex md:w-[40vw] md:justify-center md:text-[10px] md:gap-[1rem] md:ml-[6rem]">
+        <div className="xl:text-lg xl:flex xl:w-[40vw] xl:justify-center xl:gap-[2rem] xl:ml-[10rem] lg:text-[14px] lg:flex lg:w-[40vw] lg:justify-center lg:gap-[1rem] lg:ml-[5rem] md:flex md:w-[40vw] md:justify-center md:text-[10px] md:gap-[1rem] md:ml-[5rem]">
           <Link
             to={
               isAuthenticated

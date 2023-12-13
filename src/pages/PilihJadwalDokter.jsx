@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-time-picker/dist/TimePicker.css";
 import axios from "axios";
+import { format } from "date-fns";
 
 const PilihJadwalDokter = () => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -11,26 +12,32 @@ const PilihJadwalDokter = () => {
   const { id } = useParams();
   const [dokterData, setDokterData] = useState({});
   const navigate = useNavigate();
-  const [busyHours, setBusyHours] = useState([]);
   const [nama, setNama] = useState("");
+  const [busyHours, setBusyHours] = useState([]); // Declare busyHours here
+  const [isDataValid, setIsDataValid] = useState(true); // Added state for validation
 
   // Fungsi untuk menyimpan data ke local storage
   const saveToLocalStorage = () => {
-    const selectedData = {
-      dokter: dokterData,
-      tanggal: selectedDate,
-      jadwal: selectedHour,
-      nama: nama,
-    };
+    if (nama && selectedDate && selectedHour) {
+      const selectedData = {
+        dokter: dokterData,
+        tanggal: selectedDate,
+        jadwal: selectedHour,
+        nama: nama,
+      };
 
-    // Simpan data ke local storage
-    localStorage.setItem("selectedData", JSON.stringify(selectedData));
+      // Simpan data ke local storage
+      localStorage.setItem("selectedData", JSON.stringify(selectedData));
+      setIsDataValid(true); // Reset validation status
+    } else {
+      setIsDataValid(false); // Set validation status to false if data is incomplete
+    }
   };
 
-  console.log(localStorage);
-
+  // Function to handle cancellation and clear data from local storage
   const handleCancel = () => {
     console.log("Batal button clicked");
+    localStorage.removeItem("selectedData"); // Clear data from local storage
     navigate(-1);
   };
 
@@ -42,7 +49,7 @@ const PilihJadwalDokter = () => {
         );
         console.log(response.data);
         setDokterData(response.data);
-  
+
         // Misalkan respons dari API mengandung properti busyHours yang berisi jam yang sudah terpakai
         if (response.data.busyHours) {
           setBusyHours(response.data.busyHours);
@@ -55,26 +62,52 @@ const PilihJadwalDokter = () => {
     fetchDokterData();
   }, [id]);
 
-  const handleDateChange = (date) => {
+  const handleDateChange = async (date) => {
+    // Mengubah format tanggal ke "DD-MM-YYYY"
+    const formattedDate = format(new Date(date), 'dd-MM-yyyy');
+
     setSelectedDate(date);
-    // Reset jam saat tanggal berubah
     setSelectedHour("");
+
+    try {
+      // Mengecek ketersediaan waktu pada tanggal yang dipilih
+      const response = await axios.get(
+        `https://65734dfd192318b7db41e6a4.mockapi.io/booking?tanggal=${formattedDate}`
+      );
+
+      if (response.data.length > 0) {
+        // Mendapatkan jam yang sudah dipesan pada tanggal tersebut dari respons API
+        const bookedHours = response.data.map((booking) => booking.jam);
+        console.log("Jam yang sudah dipesan pada tanggal", formattedDate, ":", bookedHours);
+        setBusyHours(bookedHours)
+      } else {
+        // Jika tidak ada waktu yang terisi pada tanggal tersebut
+        console.log("Tidak ada waktu yang terisi pada tanggal", formattedDate);
+      }
+    } catch (error) {
+      console.error("Error checking booking data:", error);
+    }
   };
 
   const generateTimeOptions = () => {
     const timeOptions = [];
-  
+
     for (let hour = 9; hour <= 12; hour++) {
       const startTime = `${hour}.00`;
       const endTime = `${hour + 1}.00`;
       const timeRange = `${startTime}-${endTime}`;
-  
+
       // Cek apakah jam sudah terpakai
       const isBusy = busyHours.includes(timeRange);
-  
+
       timeOptions.push(
-        <option key={timeRange} value={timeRange} disabled={isBusy}>
-          {timeRange} {isBusy && "(Terpakai)"}
+        <option
+          key={timeRange}
+          value={timeRange}
+          disabled={isBusy}
+          style={{ color: isBusy ? "gray" : "black" }}
+        >
+          {timeRange} {isBusy && "(Booked)"}
         </option>
       );
     }
@@ -108,13 +141,13 @@ const PilihJadwalDokter = () => {
             Nama Pasien
           </label>
           <input
-            className="w-full h-[40px] lg:h-[50px] rounded-[5px] border-[1px] border-stone-600 px-4 text-[12px] lg:text-[16px] xl:text-lg"
+            className={`w-full h-[40px] lg:h-[50px] rounded-[5px] border-[1px] border-stone-600 px-4 text-[12px] lg:text-[16px] xl:text-lg ${isDataValid ? '' : 'border-red-500'}`}
             type="text"
             placeholder="Masukkan Nama Lengkap Pasien"
             value={nama}
             onChange={(e) => {
               setNama(e.target.value);
-              setError("");
+              setIsDataValid(true); // Reset validation status on input change
             }}
           />
           <label
@@ -128,7 +161,7 @@ const PilihJadwalDokter = () => {
             onChange={handleDateChange}
             dateFormat="dd/MM/yyyy"
             placeholderText="Pilih tanggal"
-            className="mb-2 w-full h-[50px] lg:h-[40px] rounded-[5px] border-[1px] border-stone-600 px-4 text-[12px] lg:text-[16px] xl:text-lg"
+            className={`mb-2 w-full h-[50px] lg:h-[40px] rounded-[5px] border-[1px] border-stone-600 px-4 text-[12px] lg:text-[16px] xl:text-lg ${isDataValid ? '' : 'border-red-500'}`}
             minDate={minDate}
           />
           <div>
@@ -144,7 +177,7 @@ const PilihJadwalDokter = () => {
               id="timePicker"
               value={selectedHour}
               onChange={handleHourChange}
-              className="w-full h-[40px] lg:h-[50px] rounded-[5px] border-[1px] border-stone-600 px-4 text-[12px] lg:text-[16px] xl:text-lg"
+              className={`w-full h-[40px] lg:h-[50px] rounded-[5px] border-[1px] border-stone-600 px-4 text-[12px] lg:text-[16px] xl:text-lg ${isDataValid ? '' : 'border-red-500'}`}
             >
               <option value="" disabled hidden>
                 Pilih jam
