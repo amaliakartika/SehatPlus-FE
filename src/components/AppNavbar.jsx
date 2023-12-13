@@ -56,7 +56,7 @@ function AppNavbar() {
         <Navbar.Toggle />
       </div>
       <div className="hidden md:flex items-center w-[80vw] justify-between">
-        <div className="xl:text-lg xl:flex xl:w-[40vw] xl:justify-center xl:gap-[2rem] xl:ml-[16rem] lg:text-[14px] lg:flex lg:w-[40vw] lg:justify-center lg:gap-[1rem] lg:ml-[6rem] md:flex md:w-[40vw] md:justify-center md:text-[10px] md:gap-[1rem] md:ml-[6rem]">
+        <div className="xl:text-lg xl:flex xl:w-[40vw] xl:justify-center xl:gap-[2rem] xl:ml-[14rem] lg:text-[14px] lg:flex lg:w-[40vw] lg:justify-center lg:gap-[1rem] lg:ml-[6rem] md:flex md:w-[40vw] md:justify-center md:text-[10px] md:gap-[1rem] md:ml-[6rem]">
           <Link
             to={
               isAuthenticated
