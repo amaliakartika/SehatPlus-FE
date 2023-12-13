@@ -15,6 +15,7 @@ const PilihJadwalDokter = () => {
   const [nama, setNama] = useState("");
   const [busyHours, setBusyHours] = useState([]); // Declare busyHours here
   const [isDataValid, setIsDataValid] = useState(true); // Added state for validation
+  const [errorMessage, setErrorMessage] = useState("")
 
   // Fungsi untuk menyimpan data ke local storage
   const saveToLocalStorage = () => {
@@ -29,8 +30,10 @@ const PilihJadwalDokter = () => {
       // Simpan data ke local storage
       localStorage.setItem("selectedData", JSON.stringify(selectedData));
       setIsDataValid(true); // Reset validation status
+      navigate("/konfirmasi-janji-temu"); // Navigate to the next page if data is valid
     } else {
       setIsDataValid(false); // Set validation status to false if data is incomplete
+      setErrorMessage("Mohon lengkapi semua data sebelum melanjutkan.");
     }
   };
 
@@ -64,7 +67,7 @@ const PilihJadwalDokter = () => {
 
   const handleDateChange = async (date) => {
     // Mengubah format tanggal ke "DD-MM-YYYY"
-    const formattedDate = format(new Date(date), 'dd-MM-yyyy');
+    const formattedDate = format(new Date(date), "dd-MM-yyyy");
 
     setSelectedDate(date);
     setSelectedHour("");
@@ -78,8 +81,13 @@ const PilihJadwalDokter = () => {
       if (response.data.length > 0) {
         // Mendapatkan jam yang sudah dipesan pada tanggal tersebut dari respons API
         const bookedHours = response.data.map((booking) => booking.jam);
-        console.log("Jam yang sudah dipesan pada tanggal", formattedDate, ":", bookedHours);
-        setBusyHours(bookedHours)
+        console.log(
+          "Jam yang sudah dipesan pada tanggal",
+          formattedDate,
+          ":",
+          bookedHours
+        );
+        setBusyHours(bookedHours);
       } else {
         // Jika tidak ada waktu yang terisi pada tanggal tersebut
         console.log("Tidak ada waktu yang terisi pada tanggal", formattedDate);
@@ -122,13 +130,13 @@ const PilihJadwalDokter = () => {
   const minDate = new Date();
 
   return (
-    <div className="flex flex-col items-center justify-center h-[92vh] gap-4">
+    <div className="flex flex-col items-center justify-center h-[92vh] gap-4 mt-6">
       <div className="flex flex-col items-center justify-center sm:gap-2 xl:gap-4">
         <h1 className="text-center text-slate-500 text-md lg:text-2xl xl:text-3xl font-bold mb-4">
           Pilih Jadwal Booking
         </h1>
       </div>
-      <div className="flex flex-col justify-center  w-[70vw] h-[80vh] md:w-[60vw] md:h-[70vh] lg:w-[60vw] lg:h-[60vh] xl:w-[40vw] xl:h-[60vh] bg-blue-100 rounded-xl px-5">
+      <div className="flex flex-col justify-center  w-[70vw] h-[80vh] md:w-[60vw] md:h-[70vh] lg:w-[60vw] lg:h-[70vh] xl:w-[40vw] xl:h-[70vh] bg-blue-100 rounded-xl px-5">
         <div className="text-zinc-700 text-sm md:text-[14px] lg:text-lg xl:text-xl font-normal mb-8">
           <div className="flex flex-col justify-center mb-2 w-full h-[60px] lg:h-[80px] xl:h-[120px] rounded-[5px] border-[1px] border-stone-600 bg-stone-100 px-4 text-[12px] lg:text-[16px] xl:text-lg">
             <p>{dokterData.nama}</p>
@@ -141,7 +149,9 @@ const PilihJadwalDokter = () => {
             Nama Pasien
           </label>
           <input
-            className={`w-full h-[40px] lg:h-[50px] rounded-[5px] border-[1px] border-stone-600 px-4 text-[12px] lg:text-[16px] xl:text-lg ${isDataValid ? '' : 'border-red-500'}`}
+            className={`w-full h-[40px] lg:h-[50px] rounded-[5px] border-[1px] border-stone-600 px-4 text-[12px] lg:text-[16px] xl:text-lg ${
+              isDataValid ? "" : "border-red-500"
+            }`}
             type="text"
             placeholder="Masukkan Nama Lengkap Pasien"
             value={nama}
@@ -161,7 +171,9 @@ const PilihJadwalDokter = () => {
             onChange={handleDateChange}
             dateFormat="dd/MM/yyyy"
             placeholderText="Pilih tanggal"
-            className={`mb-2 w-full h-[50px] lg:h-[40px] rounded-[5px] border-[1px] border-stone-600 px-4 text-[12px] lg:text-[16px] xl:text-lg ${isDataValid ? '' : 'border-red-500'}`}
+            className={`mb-2 w-full h-[50px] lg:h-[40px] rounded-[5px] border-[1px] border-stone-600 px-4 text-[12px] lg:text-[16px] xl:text-lg ${
+              isDataValid ? "" : "border-red-500"
+            }`}
             minDate={minDate}
           />
           <div>
@@ -177,7 +189,9 @@ const PilihJadwalDokter = () => {
               id="timePicker"
               value={selectedHour}
               onChange={handleHourChange}
-              className={`w-full h-[40px] lg:h-[50px] rounded-[5px] border-[1px] border-stone-600 px-4 text-[12px] lg:text-[16px] xl:text-lg ${isDataValid ? '' : 'border-red-500'}`}
+              className={`w-full h-[40px] lg:h-[50px] rounded-[5px] border-[1px] border-stone-600 px-4 text-[12px] lg:text-[16px] xl:text-lg ${
+                isDataValid ? "" : "border-red-500"
+              }`}
             >
               <option value="" disabled hidden>
                 Pilih jam
@@ -191,7 +205,7 @@ const PilihJadwalDokter = () => {
             onClick={saveToLocalStorage}
             className="w-full py-3 md:w-full lg:w-full xl:w-full bg-violet-950 rounded-[5px] text-[12px] lg:text-[16px] xl:text-base text-white"
           >
-            <Link to="/konfirmasi-janji-temu">Selanjutnya</Link>
+            Selanjutnya
           </button>
           <button
             onClick={handleCancel}
@@ -200,6 +214,9 @@ const PilihJadwalDokter = () => {
             Batal
           </button>
         </div>
+        {!isDataValid && (
+        <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+      )}
       </div>
     </div>
   );
