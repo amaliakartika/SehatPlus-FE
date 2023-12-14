@@ -11,7 +11,7 @@ const IsiArticle = ({ article }) => {
       />
       <div className="bg-gray-100 p-6 gap-4">
         <p className="text-gray-800 text-2xl font-semibold">{title}</p>
-        <p className="text-gray-700 text-md mt-4">By {author}</p>
+        <p className="text-gray-700 text-md mt-4">{author}</p>
         <p className="text-gray-600 text-sm mt-2">{date}</p>
       </div>
       <div className="text-gray-800 mt-4 text-sm md:text-md lg:text-lg xl:text-xl">
