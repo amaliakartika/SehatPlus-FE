@@ -136,7 +136,7 @@ const PilihJadwalDokter = () => {
           Pilih Jadwal Booking
         </h1>
       </div>
-      <div className="flex flex-col justify-center  w-[70vw] h-[80vh] md:w-[60vw] md:h-[70vh] lg:w-[60vw] lg:h-[90vh] xl:w-[40vw] xl:h-[90vh] bg-blue-100 rounded-xl px-5 mb-[8rem]">
+      <div className="flex flex-col justify-center  w-[70vw] h-[80vh] md:w-[60vw] md:h-[70vh] lg:w-[60vw] lg:h-[95vh] xl:w-[40vw] xl:h-[95vh] bg-blue-100 rounded-xl px-5 mb-[8rem]">
         <div className="text-zinc-700 text-sm md:text-[14px] lg:text-lg xl:text-xl font-normal mb-8">
           <div className="flex flex-col justify-center mb-2 w-full h-[60px] lg:h-[80px] xl:h-[120px] rounded-[5px] border-[1px] border-stone-600 bg-stone-100 px-4 text-[12px] lg:text-[16px] xl:text-lg">
             <p>{dokterData.nama}</p>
