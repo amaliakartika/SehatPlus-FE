@@ -70,7 +70,7 @@ const KonfirmasiJanjiTemu = () => {
         </p>
       </div>
       <div
-        className="flex flex-col justify-center  w-[70vw] h-[75vh] md:w-[60vw] md:h-[65vh] lg:w-[50vw] lg:h-[95vh] xl:w-[
+        className="flex flex-col justify-center  w-[70vw] h-[50vh] md:w-[60vw] md:h-[65vh] lg:w-[50vw] lg:h-[95vh] xl:w-[
         40vw] xl:h-[95vh] bg-white rounded-xl px-5 mb-[6rem]"
       >
         <div className="text-zinc-700 text-sm md:text-[14px] lg:text-lg xl:text-xl font-normal mb-8">
