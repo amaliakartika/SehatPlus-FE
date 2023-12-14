@@ -71,7 +71,7 @@ const KonfirmasiJanjiTemu = () => {
       </div>
       <div
         className="flex flex-col justify-center  w-[70vw] h-[75vh] md:w-[60vw] md:h-[65vh] lg:w-[50vw] lg:h-[95vh] xl:w-[
-        40vw] xl:h-[95vh] bg-blue-100 rounded-xl px-5 mb-[6rem]"
+        40vw] xl:h-[95vh] bg-white rounded-xl px-5 mb-[6rem]"
       >
         <div className="text-gray-700 text-sm md:text-md lg:text-xl xl:text-2xl font-bold">
           Jadwal Anda :
